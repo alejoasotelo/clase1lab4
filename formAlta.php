@@ -125,9 +125,6 @@ if(isset($_POST['agregar']) && $_POST['agregar'] === "Guardar")// si esto no se 
       					{   
       						// algun error;
       					}
-
-
-
 					}
 
 				}
@@ -135,23 +132,22 @@ if(isset($_POST['agregar']) && $_POST['agregar'] === "Guardar")// si esto no se 
 		}
 	}
 
-
 	if($_POST['idOculto'] != "")//paso por grilla y luego guardo
 	{
 		$unaAlumno = Alumno::TraerUnaAlumno($_POST['idOculto']);
-		//$unaAlumno->SetFoto($foto);
+		$unaAlumno->SetFoto($foto);
 		$unaAlumno->SetApellido($_POST['apellido']);
 		$unaAlumno->SetNombre($_POST['nombre']);
-		//$unaAlumno->SetDni($_POST['dni']);		
+		$unaAlumno->SetDni($_POST['dni']);		
 		$retorno = Alumno::Modificar($unaAlumno);
 	}
 	else// si es un alta
 	{
 		$p = new Alumno();	
-		//$p->SetFoto($foto);
+		$p->SetFoto($foto);
 		$p->SetApellido($_POST['apellido']);
 		$p->SetNombre($_POST['nombre']);
-		//$p->SetDni($_POST['dni']);
+		$p->SetDni($_POST['dni']);
 		Alumno::Insertar($p);
 	}	
 }

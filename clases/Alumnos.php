@@ -6,15 +6,15 @@ class Alumno
 //--ATRIBUTOS
 	private $id;
 	private $nombre;
- 	private $apellido;
-  	private $dni;
-  	private $foto;
+	private $apellido;
+	private $dni;
+	private $foto;
 
 //--------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------//
 //--GETTERS Y SETTERS
-  	public function GetId()
+	public function GetId()
 	{
 		return $this->id;
 	}
@@ -71,25 +71,22 @@ class Alumno
 
 //--------------------------------------------------------------------------------//
 //--TOSTRING	
-  	public function ToString()
+	public function ToString()
 	{
-	  	return $this->apellido."-".$this->nombre."-".$this->dni."-".$this->foto;
+		return $this->apellido."-".$this->nombre."-".$this->dni."-".$this->foto;
 	}
 //--------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------//
 //--METODO DE CLASE
 	public static function TraerUnaAlumno($idParametro) 
-	{	
-
-
+	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("select * from alumno where id =:id");
+		$consulta = $objetoAccesoDato->RetornarConsulta("select * from alumno where id =:id");
 		$consulta->bindValue(':id', $idParametro, PDO::PARAM_INT);
 		$consulta->execute();
-		$alumnoBuscada= $consulta->fetchObject('alumno');
-		return $alumnoBuscada;	
-					
+		$alumnoBuscada = $consulta->fetchObject('alumno');
+		return $alumnoBuscada;					
 	}
 	
 	public static function TraerTodasLasAlumnos()
@@ -113,17 +110,20 @@ class Alumno
 	
 	public static function Modificar($alumno)
 	{
-			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("
-				update alumno 
-				set nombre=:nombre,
-				apellido=:apellido
-				WHERE id=:id");
-			$consulta->bindValue(':id',$alumno->id, PDO::PARAM_INT);
-			$consulta->bindValue(':nombre',$alumno->nombre, PDO::PARAM_STR);
-			$consulta->bindValue(':apellido', $alumno->apellido, PDO::PARAM_STR);
-			//$consulta->bindValue(':foto', $alumno->foto, PDO::PARAM_STR);
-			return $consulta->execute();
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+			update alumno 
+			set nombre=:nombre,
+			apellido=:apellido,
+			dni=:dni,
+			foto=:foto
+			WHERE id=:id");
+		$consulta->bindValue(':id',$alumno->id, PDO::PARAM_INT);
+		$consulta->bindValue(':nombre',$alumno->nombre, PDO::PARAM_STR);
+		$consulta->bindValue(':apellido', $alumno->apellido, PDO::PARAM_STR);
+		$consulta->bindValue(':dni', $alumno->dni, PDO::PARAM_STR);
+		$consulta->bindValue(':foto', $alumno->foto, PDO::PARAM_STR);
+		return $consulta->execute();
 	}
 
 //--------------------------------------------------------------------------------//
@@ -133,15 +133,13 @@ class Alumno
 	public static function Insertar($alumno)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-				$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into alumno (nombre,apellido)values(:nombre,:apellido)");
-				$consulta->bindValue(':nombre',$alumno->nombre, PDO::PARAM_STR);
-				$consulta->bindValue(':apellido', $alumno->apellido, PDO::PARAM_STR);
-				//$consulta->bindValue(':dni', $alumno->dni, PDO::PARAM_STR);
-				//$consulta->bindValue(':foto', $alumno->foto, PDO::PARAM_STR);
-				$consulta->execute();		
-				return $objetoAccesoDato->RetornarUltimoIdInsertado();
-	
-				
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into alumno (nombre, apellido, dni, foto)values(:nombre, :apellido, :dni, :foto)");
+		$consulta->bindValue(':nombre',$alumno->nombre, PDO::PARAM_STR);
+		$consulta->bindValue(':apellido', $alumno->apellido, PDO::PARAM_STR);
+		$consulta->bindValue(':dni', $alumno->dni, PDO::PARAM_STR);
+		$consulta->bindValue(':foto', $alumno->foto, PDO::PARAM_STR);
+		$consulta->execute();		
+		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	}	
 //--------------------------------------------------------------------------------//
 
